@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CryptoGuard — Create Account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --n9:#040812;--n8:#070e1f;--n7:#0b1428;--n6:#101c35;--n5:#162240;
+  --amber:#f5a623;--amber-h:#ffb733;--amber-glow:rgba(245,166,35,.12);--amber-faint:rgba(245,166,35,.05);
+  --red:#ff4d6d;--green:#00e5a0;--cyan:#00d4ff;
+  --t1:#e8edf5;--t2:#8a95a8;--t3:#3d4a5c;
+  --bdr:rgba(255,255,255,.06);
+  --D:'Bebas Neue',sans-serif;--B:'DM Sans',sans-serif;--M:'DM Mono',monospace;
+}
+html,body{height:100%;min-height:100vh}
+body{background:var(--n9);color:var(--t1);font-family:var(--B);display:flex;align-items:stretch;overflow:hidden}
+
+.hex-bg{position:fixed;inset:0;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpolygon points='28,2 54,16 54,44 28,58 2,44 2,16' fill='none' stroke='rgba(245,166,35,0.05)' stroke-width='1'/%3E%3Cpolygon points='28,50 54,64 54,92 28,106 2,92 2,64' fill='none' stroke='rgba(245,166,35,0.05)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size:56px 100px}
+
+.glow-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(90px)}
+.g1{width:500px;height:500px;background:rgba(245,166,35,.06);top:-100px;left:5%;animation:d1 13s ease-in-out infinite alternate}
+.g2{width:350px;height:350px;background:rgba(0,212,255,.04);bottom:5%;left:20%;animation:d2 9s ease-in-out infinite alternate}
+.g3{width:400px;height:400px;background:rgba(245,166,35,.04);top:30%;right:0;animation:d1 11s ease-in-out infinite alternate}
+@keyframes d1{from{transform:translate(0,0)}to{transform:translate(20px,30px)}}
+@keyframes d2{from{transform:translate(0,0)}to{transform:translate(-15px,20px)}}
+
+.left{
+  width:440px;flex-shrink:0;background:var(--n8);
+  border-right:1px solid var(--bdr);
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:48px 44px;position:relative;z-index:1;
+  animation:sL .7s cubic-bezier(.16,1,.3,1) both
+}
+@keyframes sL{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:translateX(0)}}
+
+.right{flex:1;display:flex;align-items:center;justify-content:center;padding:32px 48px;position:relative;z-index:1;overflow-y:auto}
+
+.logo{display:flex;align-items:center;gap:12px}
+.logo-hex{width:40px;height:40px;background:var(--amber);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;font-family:var(--M);font-size:12px;font-weight:500;color:var(--n9);flex-shrink:0}
+.logo-txt{font-family:var(--D);font-size:26px;letter-spacing:3px}
+.logo-txt span{color:var(--amber)}
+
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;padding:44px 0}
+.hero h1{font-family:var(--D);font-size:60px;line-height:.92;letter-spacing:3px;margin-bottom:24px}
+.hero h1 .a{color:var(--amber);display:block}
+.hero p{font-size:13px;color:var(--t2);line-height:1.75;max-width:270px;margin-bottom:36px}
+
+.features{display:flex;flex-direction:column;gap:14px}
+.feat{display:flex;align-items:center;gap:12px}
+.feat-dot{width:28px;height:28px;background:var(--amber-faint);border:1px solid rgba(245,166,35,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.feat-txt{font-size:13px;color:var(--t2)}
+.feat-txt strong{color:var(--t1);font-weight:500}
+
+.footer-status{display:flex;align-items:center;gap:8px;font-size:11px;font-family:var(--M);color:var(--t3)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2.2s infinite}
+@keyframes blink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,229,160,.5)}50%{opacity:.6;box-shadow:0 0 0 5px rgba(0,229,160,0)}}
+
+.card{width:100%;max-width:400px;padding:4px 0;animation:fU .7s .15s cubic-bezier(.16,1,.3,1) both}
+@keyframes fU{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.eyebrow{font-family:var(--M);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--amber);opacity:.6}
+.card-title{font-family:var(--D);font-size:52px;letter-spacing:3px;line-height:.95;margin-bottom:6px}
+.card-sub{font-size:12px;color:var(--t2);font-family:var(--M);margin-bottom:28px}
+
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f{margin-bottom:16px}
+.f label{display:block;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin-bottom:7px;font-family:var(--M)}
+.fi{position:relative}
+.fi input{
+  width:100%;background:var(--n7);border:1px solid var(--bdr);
+  border-radius:5px;padding:12px 40px 12px 14px;
+  color:var(--t1);font-family:var(--M);font-size:13px;outline:none;
+  transition:border-color .2s,background .2s,box-shadow .2s;
+}
+.fi input::placeholder{color:var(--t3)}
+.fi input:focus{border-color:var(--amber);background:var(--n6);box-shadow:0 0 0 3px var(--amber-faint)}
+.fi .ico{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:12px;pointer-events:none}
+
+/* password strength */
+.strength{height:2px;border-radius:1px;background:var(--bdr);margin-top:6px;overflow:hidden}
+.strength-fill{height:100%;border-radius:1px;width:0;transition:width .35s,background .35s}
+
+.btn{
+  width:100%;background:var(--amber);border:none;border-radius:5px;
+  padding:13px;font-family:var(--D);font-size:20px;letter-spacing:3px;
+  color:var(--n9);cursor:pointer;
+  transition:background .2s,transform .1s,box-shadow .2s;
+  margin-top:6px;position:relative;overflow:hidden;
+}
+.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 55%)}
+.btn:hover{background:var(--amber-h);box-shadow:0 6px 28px rgba(245,166,35,.3)}
+.btn:active{transform:scale(.985)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+.link-row{text-align:center;margin-top:18px;font-size:13px;color:var(--t2)}
+.link-row a{color:var(--amber);text-decoration:none;font-weight:500}
+.link-row a:hover{text-decoration:underline}
+
+.err{background:rgba(255,77,109,.07);border:1px solid rgba(255,77,109,.2);border-left:3px solid var(--red);border-radius:5px;padding:10px 14px;font-size:12px;font-family:var(--M);color:var(--red);margin-bottom:16px;display:none}
+.ok{background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.2);border-left:3px solid var(--green);border-radius:5px;padding:10px 14px;font-size:12px;font-family:var(--M);color:var(--green);margin-bottom:16px;display:none}
+
+.divider-line{position:absolute;top:0;bottom:0;left:440px;width:1px;background:linear-gradient(to bottom,transparent,rgba(245,166,35,.15) 30%,rgba(245,166,35,.15) 70%,transparent);z-index:2}
+</style>
+</head>
+<body>
+<div class="hex-bg"></div>
+<div class="glow-orb g1"></div>
+<div class="glow-orb g2"></div>
+<div class="glow-orb g3"></div>
+<div class="divider-line"></div>
+
+<div class="left">
+  <div class="logo">
+    <div class="logo-hex">CG</div>
+    <div class="logo-txt">Crypto<span>Guard</span></div>
+  </div>
+  <div class="hero">
+    <h1>JOIN THE<br><span class="a">INTELLIGENCE</span><br>NETWORK</h1>
+    <p>Get instant access to our AI fraud detection platform and protect your crypto operations.</p>
+    <div class="features">
+      <div class="feat"><div class="feat-dot">⬡</div><div class="feat-txt"><strong>Real-time detection</strong> — sub-50ms analysis</div></div>
+      <div class="feat"><div class="feat-dot">◈</div><div class="feat-txt"><strong>Dual AI models</strong> — IF + RF pipeline</div></div>
+      <div class="feat"><div class="feat-dot">✦</div><div class="feat-txt"><strong>Risk scoring</strong> — 0–100 explainable score</div></div>
+      <div class="feat"><div class="feat-dot">◫</div><div class="feat-txt"><strong>CSV batch upload</strong> — bulk analysis</div></div>
+    </div>
+  </div>
+  <div class="footer-status"><div class="dot"></div>Secure encrypted connection</div>
+</div>
+
+<div class="right">
+  <div class="card">
+    <div class="eyebrow">New Account</div>
+    <div class="card-title">CREATE ACCOUNT</div>
+    <div class="card-sub">// join the fraud detection network</div>
+    <div class="err" id="err"></div>
+    <div class="ok" id="ok"></div>
+    <div class="f">
+      <label>Username</label>
+      <div class="fi">
+        <input type="text" id="uname" placeholder="analyst_01">
+        <span class="ico">◎</span>
+      </div>
+    </div>
+    <div class="f">
+      <label>Email Address</label>
+      <div class="fi">
+        <input type="email" id="email" placeholder="analyst@firm.com">
+        <span class="ico">✦</span>
+      </div>
+    </div>
+    <div class="f">
+      <label>Password</label>
+      <div class="fi">
+        <input type="password" id="pw" placeholder="min 6 characters" oninput="strength(this.value)">
+        <span class="ico">◈</span>
+      </div>
+      <div class="strength"><div class="strength-fill" id="sf"></div></div>
+    </div>
+    <button class="btn" id="btn" onclick="go()">CREATE ACCOUNT</button>
+    <div class="link-row">Already have an account? <a href="/login">Sign in →</a></div>
+  </div>
+</div>
+
+<script>
+function strength(v){
+  const bar=document.getElementById('sf');
+  if(!v.length){bar.style.width='0';return}
+  const score=v.length<6?1:v.length<10?2:3;
+  const w=['0%','30%','65%','100%'][score];
+  const c=['','#ff4d6d','#f5a623','#00e5a0'][score];
+  bar.style.width=w;bar.style.background=c;
+}
+async function go(){
+  const u=document.getElementById('uname').value.trim();
+  const e=document.getElementById('email').value.trim();
+  const p=document.getElementById('pw').value;
+  const btn=document.getElementById('btn');
+  const err=document.getElementById('err');
+  const ok=document.getElementById('ok');
+  err.style.display='none';ok.style.display='none';
+  if(!u||!e||!p){show('All fields are required','err');return}
+  if(p.length<6){show('Password must be at least 6 characters','err');return}
+  btn.disabled=true;btn.textContent='CREATING ACCOUNT...';
+  try{
+    const r=await fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,email:e,password:p})});
+    const d=await r.json();
+    if(!r.ok){show(d.error||'Signup failed','err');return}
+    localStorage.setItem('cg_token',d.token);
+    localStorage.setItem('cg_user',JSON.stringify(d.user));
+    show('Account created! Redirecting...','ok');
+    btn.textContent='ACCOUNT CREATED ✓';btn.style.background='var(--green)';
+    setTimeout(()=>window.location.href='/dashboard',800);
+  }catch(e){show('Network error — is the server running?','err')}
+  finally{if(btn.textContent!=='ACCOUNT CREATED ✓'){btn.disabled=false;btn.textContent='CREATE ACCOUNT'}}
+}
+function show(m,t){const e=document.getElementById(t);e.textContent=m;e.style.display='block'}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+</script>
+</body>
+</html>

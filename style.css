@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* BACKGROUND */
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #d9a7c7, #fffcdc);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CARD */
+.card {
+    width: 900px;
+    height: 500px;
+    display: flex;
+    border-radius: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.3);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+/* FORM */
+.form-section {
+    width: 50%;
+    padding: 60px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+/* INPUT STYLE */
+.input-box {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-box input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #555;
+    padding: 10px;
+    background: transparent;
+    outline: none;
+}
+
+.input-box label {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: #777;
+    transition: 0.3s;
+}
+
+.input-box i {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    color: #555;
+}
+
+/* FLOAT LABEL */
+.input-box input:focus + label,
+.input-box input:valid + label {
+    top: -10px;
+    font-size: 12px;
+    color: #6a5acd;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    background: linear-gradient(to right, #6a5acd, #8360c3);
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* TOGGLE TEXT */
+#toggleText {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#toggleText span {
+    color: #6a5acd;
+    cursor: pointer;
+}
+
+/* IMAGE */
+.image-section {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-section img {
+    width: 80%;
+    border-radius: 20px;
+}
+
+/* HIDE */
+.hidden {
+    display: none;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CryptoAI</title>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <!-- LEFT FORM -->
+        <div class="form-section">
+
+            <h2 id="title">Login to <span>CryptoAI</span></h2>
+
+            <!-- LOGIN -->
+            <form id="loginForm">
+
+                <div class="input-box">
+                    <input type="email" required>
+                    <label>Email</label>
+                    <i class="fa fa-envelope"></i>
+                </div>
+
+                <div class="input-box">
+                    <input type="password" required>
+                    <label>Password</label>
+                    <i class="fa fa-lock"></i>
+                </div>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <!-- SIGNUP -->
+            <form id="signupForm" class="hidden">
+
+                <div class="input-box">
+                    <input type="text" required>
+                    <label>User Name</label>
+                    <i class="fa fa-user"></i>
+                </div>
+
+                <div class="input-box">
+                    <input type="email" required>
+                    <label>Email</label>
+                    <i class="fa fa-envelope"></i>
+                </div>
+
+                <div class="input-box">
+                    <input type="password" required>
+                    <label>Password</label>
+                    <i class="fa fa-lock"></i>
+                </div>
+
+                <button type="submit">Sign Up</button>
+            </form>
+
+            <p id="toggleText">
+                Don't have an account?
+                <span onclick="toggleForm()">Sign Up</span>
+            </p>
+
+        </div>
+
+        <!-- RIGHT IMAGE -->
+        <div class="image-section">
+    <div class="image-box">
+        <img src="/Users/vrindasharma/Desktop/software engineering project/loginimage.jpg" alt="AI Image">
+    </div>
+</div>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
