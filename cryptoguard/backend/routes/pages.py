@@ -18,3 +18,7 @@ def signup_page():
 @pages_bp.route('/dashboard')
 def dashboard_page():
     return render_template('dashboard.html')
+
+@pages_bp.route('/url-checker')
+def url_checker_page():
+    return render_template('url_checker.html')

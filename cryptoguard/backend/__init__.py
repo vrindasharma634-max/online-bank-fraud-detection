@@ -63,10 +63,12 @@ def create_app():
     from backend.routes.predict import predict_bp
     from backend.routes.dashboard import dashboard_bp
     from backend.routes.pages import pages_bp
+    from backend.routes.url_checker_route import url_checker_bp
 
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(predict_bp, url_prefix='/api')
     app.register_blueprint(dashboard_bp, url_prefix='/api')
+    app.register_blueprint(url_checker_bp, url_prefix='/api')
     app.register_blueprint(pages_bp)
 
     with app.app_context():

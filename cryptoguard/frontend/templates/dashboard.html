@@ -293,6 +293,7 @@ body{background:var(--n9);color:var(--t1);font-family:var(--B);display:flex}
       <span class="n-icon">⚠</span>Alerts
       <span class="n-badge" id="alertCount">0</span>
     </a>
+    <a class="ni" onclick="showTab('urlchecker')"><span class="n-icon">🔗</span>URL Checker</a>
   </nav>
   <div class="sb-footer">
     <div class="user-row">
@@ -453,6 +454,50 @@ body{background:var(--n9);color:var(--t1);font-family:var(--B);display:flex}
       </div>
     </div>
 
+    <!-- ══ URL CHECKER ══ -->
+    <div id="tab-urlchecker" style="display:none">
+      <div class="form-panel">
+        <div class="ph" style="margin-bottom:18px">
+          <div class="pt">Check URL Safety</div>
+        </div>
+        <div class="ff" style="margin-bottom:16px">
+          <label>Enter URL to Check</label>
+          <input type="text" id="urlInput" placeholder="https://example.com" style="width:100%;padding:12px;font-size:13px">
+        </div>
+        <div class="form-actions">
+          <button class="btn-p" id="urlCheckBtn" onclick="checkURL()">CHECK URL</button>
+          <button class="btn-o" onclick="clearURLResult()">CLEAR</button>
+        </div>
+      </div>
+
+      <div id="urlResult" style="display:none;margin-top:20px">
+        <div class="panel">
+          <div class="ph" style="margin-bottom:16px">
+            <div class="pt" id="urlResultTitle">URL Analysis Result</div>
+            <div class="pb a" id="urlVerdictBadge">checking</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+            <div style="background:var(--n7);border:1px solid var(--bdr);border-radius:8px;padding:12px">
+              <div style="font-size:10px;text-transform:uppercase;color:var(--t3);font-family:var(--M);margin-bottom:8px">Safety Status</div>
+              <div id="urlSafetyStatus" style="font-size:20px;font-family:var(--D);font-weight:600">—</div>
+            </div>
+            <div style="background:var(--n7);border:1px solid var(--bdr);border-radius:8px;padding:12px">
+              <div style="font-size:10px;text-transform:uppercase;color:var(--t3);font-family:var(--M);margin-bottom:8px">Risk Score</div>
+              <div id="urlRiskScore" style="font-size:20px;font-family:var(--D);font-weight:600">—</div>
+            </div>
+          </div>
+          <div style="background:var(--n7);border:1px solid var(--bdr);border-radius:8px;padding:12px;margin-bottom:16px">
+            <div style="font-size:10px;text-transform:uppercase;color:var(--t3);font-family:var(--M);margin-bottom:8px">URL Details</div>
+            <div id="urlDetails" style="font-family:var(--M);font-size:11px;color:var(--t2);line-height:1.8"></div>
+          </div>
+          <div id="urlFlags" style="background:var(--n7);border:1px solid var(--bdr);border-radius:8px;padding:12px;display:none">
+            <div style="font-size:10px;text-transform:uppercase;color:var(--t3);font-family:var(--M);margin-bottom:8px">Risk Indicators</div>
+            <ul id="urlFlagsList" style="list-style:none;padding:0;margin:0"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </main>
 
@@ -485,12 +530,13 @@ function toast(msg,type='info'){
 }
 
 // ── TABS ──
-const TABS=['overview','analyze','transactions','alerts'];
+const TABS=['overview','analyze','transactions','alerts','urlchecker'];
 const HEADS={
   overview:['OVERVIEW','// ai-powered transaction monitoring'],
   analyze:['ANALYZE','// run isolation forest + random forest'],
   transactions:['TRANSACTIONS','// complete history'],
-  alerts:['ALERTS','// active security events']
+  alerts:['ALERTS','// active security events'],
+  urlchecker:['URL CHECKER','// phishing and malware detection']
 };
 function showTab(tab){
   TABS.forEach(t=>{document.getElementById('tab-'+t).style.display=t===tab?'':'none'});
@@ -708,6 +754,48 @@ async function csvUp(file){
     document.getElementById('csvRes').style.display='';
     toast(`${d.fraud_found} fraud found in ${d.processed} rows`,d.fraud_found>0?'err':'ok');
   }catch(e){drop.innerHTML='<div class="drop-icon">⚠</div><div class="drop-title">Upload failed</div>';toast('CSV failed','err')}
+}
+
+// ── URL CHECKER ──
+async function checkURL(){
+  const url=document.getElementById('urlInput').value.trim();
+  if(!url){toast('Please enter a URL','err');return}
+  const btn=document.getElementById('urlCheckBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>';
+  try{
+    const r=await fetch(API+'/api/check-url',{method:'POST',headers:hdrs(),body:JSON.stringify({url:url})});
+    if(r.status===401){logout();return}
+    const d=await r.json();
+    displayURLResult(d);
+  }catch(e){toast('URL check failed','err')}
+  finally{btn.disabled=false;btn.textContent='CHECK URL'}
+}
+
+function displayURLResult(d){
+  document.getElementById('urlResult').style.display='';
+  const safe=d.verdict==='safe';
+  document.getElementById('urlSafetyStatus').textContent=safe?'✓ SAFE':'⚠ SUSPICIOUS';
+  document.getElementById('urlSafetyStatus').style.color=safe?'var(--green)':'var(--red)';
+  document.getElementById('urlRiskScore').textContent=(d.risk_score||0)+'/100';
+  document.getElementById('urlRiskScore').style.color=d.risk_score>=60?'var(--red)':d.risk_score>=35?'var(--amber)':'var(--green)';
+  const badge=document.getElementById('urlVerdictBadge');
+  badge.textContent=d.verdict.toUpperCase();
+  badge.className='pb '+(safe?'g':'r');
+  const details=`<div style="margin-bottom:8px"><strong>Domain:</strong> ${d.domain||'N/A'}</div>
+<div style="margin-bottom:8px"><strong>URL:</strong> <span style="word-break:break-all;font-size:10px;color:var(--t3)">${url||'N/A'}</span></div>
+<div><strong>Threats:</strong> ${d.threats||'None detected'}</div>`;
+  document.getElementById('urlDetails').innerHTML=details;
+  const flags=d.red_flags||[];
+  if(flags.length>0){
+    document.getElementById('urlFlags').style.display='';
+    document.getElementById('urlFlagsList').innerHTML=flags.map(f=>`<li style="padding:6px 0;border-bottom:1px solid var(--n5);display:flex;align-items:center;gap:8px"><span style="width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0"></span><span>${f}</span></li>`).join('')
+  }else{document.getElementById('urlFlags').style.display='none'}
+  toast('URL checked','ok');
+}
+
+function clearURLResult(){
+  document.getElementById('urlInput').value='';
+  document.getElementById('urlResult').style.display='none';
 }
 
 initUser();
